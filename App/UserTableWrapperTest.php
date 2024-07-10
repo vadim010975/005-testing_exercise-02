@@ -7,7 +7,6 @@ require_once 'UserTableWrapper.php';
 use PHPUnit\Framework\Attributes\TestWith;
 use PHPUnit\Framework\TestCase;
 
-
 class UserTableWrapperTest extends TestCase
 {
     #[TestWith([['id' => 1, 'name' => 'Алексей', 'phone' => '+79031234567']])]
@@ -52,5 +51,19 @@ class UserTableWrapperTest extends TestCase
         $this->assertEquals([$values], $result);
     }
 
-
+    public function testGet()
+    {
+        $data = [
+            ['id' => 1, 'name' => 'Ольга', 'phone' => '+79278888888'],
+            ['id' => 2, 'name' => 'Оксана', 'phone' => '+79279999999'],
+            ['id' => 3, 'name' => 'Ксения', 'phone' => '+79270000000']
+        ];
+        $userTableWrapper = new UserTableWrapper();
+        $userTableWrapper->insert($data[0]);
+        $userTableWrapper->insert($data[1]);
+        $userTableWrapper->insert($data[2]);
+        $userTableWrapper->delete(2);
+        $result = $userTableWrapper->get();
+        $this->assertEquals([$data[0], $data[2]], $result);
+    }
 }
